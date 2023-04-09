@@ -3,18 +3,16 @@ import healthCheck from "../routes/healthCheck";
 import cors from "cors";
 import morgan from "morgan";
 import swaggerDocs from "../utils/swagger";
+import validateResource from "../middleware/validateResource";
+import users from "../routes/users";
 
 export default function (app: Express, port: number) {
     app.use(express.json());
-    // Register TSOA routes
 
-    // Serve Swagger UI at /docs
-    // const swaggerDocument = require("../swagger.json");
-
-    // Error handler for TSOA validation errors
     app.use(morgan("tiny"));
     app.use(cors());
-    app.use("/healthcheck", healthCheck);
+    app.use("/api/healthcheck", healthCheck);
+    app.use("/api/users", users);
+
     swaggerDocs(app, port);
-    // app.use("/api/todos", todos);
 }
