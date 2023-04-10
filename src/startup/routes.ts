@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import swaggerDocs from "../utils/swagger";
 import users from "../routes/users";
+import error from "../middleware/error";
 
 export default function (app: Express, port: number) {
     app.use(express.json());
@@ -11,6 +12,5 @@ export default function (app: Express, port: number) {
     app.use(cors());
     app.use("/api/healthcheck", healthCheck);
     app.use("/api/users", users);
-
     swaggerDocs(app, port);
 }

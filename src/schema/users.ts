@@ -5,7 +5,7 @@ import { Static, Type } from "@sinclair/typebox";
  * @swagger
  * components:
  *   schemas:
- *     Product:
+ *     User:
  *       type: object
  *       required:
  *          first_name

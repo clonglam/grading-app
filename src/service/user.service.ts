@@ -8,6 +8,7 @@ import {
 
 import { databaseResponseTimeHistogram } from "../utils/metrics";
 import { Prisma, PrismaClient } from "@prisma/client";
+import { CreateCourseEnrollmentInput } from "../schema/courseEnrollment";
 
 const prisma = new PrismaClient();
 
@@ -18,7 +19,7 @@ export async function createUser(input: UserInput) {
 
     const data = {
         ...input,
-        social: input.social && JSON.stringify(input.social),
+        social: input.social as Prisma.JsonObject,
     };
 
     const timer = databaseResponseTimeHistogram.startTimer();

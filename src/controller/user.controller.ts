@@ -21,7 +21,7 @@ export async function createUserHandler(
 
     try {
         const user = await createUser(body);
-        if (!user) return res.sendStatus(404);
+        if (!user) return res.send(404);
         return res.send(user);
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -90,7 +90,7 @@ export async function deleteUserHandler(
         return res.sendStatus(404);
     }
 
-    const updatedProduct = await deleteUser({ id });
+    const deletedUser = await deleteUser({ id });
 
-    return res.send(updatedProduct);
+    return res.send(deletedUser);
 }

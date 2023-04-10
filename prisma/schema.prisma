@@ -17,6 +17,7 @@ model User {
   lastName  String
   social    Json?
 
+
   // Relation fields
   courses     CourseEnrollment[]
   testResults TestResult[]       @relation(name: "results")
