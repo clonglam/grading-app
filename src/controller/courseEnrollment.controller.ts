@@ -1,25 +1,12 @@
-import {
-    CreateCourseEnrollmentInput,
-    GetCourseEnrollmentInput,
-} from "./../schema/courseEnrollment";
-import { Prisma } from "@prisma/client";
-import {
-    createUser,
-    deleteUser,
-    getUser,
-    updateUser,
-} from "../service/user.service";
-import {
-    CreateUserInput,
-    DeleteUserInput,
-    GetUserInput,
-    UpdateUserInput,
-} from "../schema/users";
 import { Request, Response } from "express";
 import {
     createCourseEnrollment,
     getCourseEnrollment,
 } from "../service/courseEnrollment.service";
+import {
+    CreateCourseEnrollmentInput,
+    GetCourseEnrollmentInput,
+} from "./../schema/courseEnrollment";
 
 export async function createCourseEnrollmentHandler(
     req: Request<

@@ -34,7 +34,7 @@ export async function createUser(input: UserInput) {
     }
 }
 
-export async function getUser({ id }: { id: number }) {
+export async function getUser({ id }: GetUserInput["params"]) {
     const metricsLabels = {
         operation: "getUser",
     };
@@ -42,8 +42,12 @@ export async function getUser({ id }: { id: number }) {
     const timer = databaseResponseTimeHistogram.startTimer();
 
     try {
+        const data = { id: parseInt(id) };
+
+        if (!data.id || Number.isNaN(data.id))
+            return new Error("Please enter a valid userid");
         const result = await prisma.user.findUnique({
-            where: { id },
+            where: { ...data },
         });
         timer({ ...metricsLabels, success: "true" });
         return result;

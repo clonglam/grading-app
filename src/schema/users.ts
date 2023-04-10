@@ -18,6 +18,7 @@ import { Static, Type } from "@sinclair/typebox";
  *           type: string
  *         email:
  *           type: number
+ *
  */
 
 export interface UserInput {

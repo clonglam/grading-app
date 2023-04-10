@@ -18,7 +18,7 @@ import { Request, Response } from "express";
  * tags:
  *   name: Users
  *   description: The user path
- * /users/{id}:
+ * /users/{userId}:
  *   post:
  *     summary: Create a user (and optionally associate with courses)
  *     tags: [Users]
@@ -44,10 +44,8 @@ export async function createUserHandler(
     req: Request<{}, {}, CreateUserInput["body"]>,
     res: Response
 ) {
-    const body = req.body;
-
     try {
-        const user = await createUser(body);
+        const user = await createUser(req.body);
         return res.send(user);
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -64,30 +62,11 @@ export async function createUserHandler(
     }
 }
 
-export async function getUserHandler(
-    req: Request<GetUserInput["params"]>,
-    res: Response
-) {
-    const id = req.params.id;
-
-    const data = parseInt(id);
-    if (!data || Number.isNaN(data)) return res.sendStatus(404);
-    // throw new Error("invalid id");
-    const user = await getUser({ id: data });
-
-    if (!user) return res.sendStatus(404);
-
-    return res.send(user);
-}
-
 /**
  * @swagger
- * tags:
- *   name: Users
- *   description: The user path
- * /users:
+ * /users/{userId}:
  *   get:
- *     summary: Create a user (and optionally associate with courses)
+ *     summary: Get a user
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -107,43 +86,98 @@ export async function getUserHandler(
  *
  */
 
+export async function getUserHandler(
+    req: Request<GetUserInput["params"]>,
+    res: Response
+) {
+    const id = req.params.id;
+
+    const data = parseInt(id);
+    if (!data || Number.isNaN(data)) return res.sendStatus(404);
+    // throw new Error("invalid id");
+    const user = await getUser(req.params);
+
+    if (!user) return res.sendStatus(404);
+
+    return res.send(user);
+}
+
+/**
+ * @swagger
+ * /users/{userId}:
+ *    put:
+ *     summary: Update a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The Updated User.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ *
+ */
+
 export async function updateUserHandler(
     req: Request<UpdateUserInput["params"], {}, UpdateUserInput["body"]>,
     res: Response
 ) {
-    const id = req.params.id;
     const update = req.body;
 
-    const data = parseInt(id);
-    if (!data || Number.isNaN(data)) return res.sendStatus(404);
-
-    const user = await getUser({ id: data });
+    const user = await getUser(req.params);
 
     if (!user) {
         return res.sendStatus(404);
     }
 
-    const updatedProduct = await updateUser({ id }, update);
+    const updatedProduct = await updateUser(req.params, update);
 
     return res.send(updatedProduct);
 }
+
+/**
+ * @swagger
+ * /users/{userId}:
+ *    delete:
+ *     summary: Delete a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The Deleted User.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ *
+ */
 
 export async function deleteUserHandler(
     req: Request<DeleteUserInput["params"], {}, {}>,
     res: Response
 ) {
-    const id = req.params.id;
-
-    const data = parseInt(id);
-    if (!data || Number.isNaN(data)) return res.sendStatus(402);
-
-    const user = await getUser({ id: data });
+    const user = await getUser(req.params);
 
     if (!user) {
         return res.sendStatus(404);
     }
 
-    const deletedUser = await deleteUser({ id });
+    const deletedUser = await deleteUser(req.params);
 
     return res.send(deletedUser);
 }
