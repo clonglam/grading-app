@@ -13,6 +13,33 @@ import {
 } from "./../schema/users";
 import { Request, Response } from "express";
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: The user path
+ * /users/{id}:
+ *   post:
+ *     summary: Create a user (and optionally associate with courses)
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The created User.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ *
+ */
+
 export async function createUserHandler(
     req: Request<{}, {}, CreateUserInput["body"]>,
     res: Response
@@ -21,7 +48,6 @@ export async function createUserHandler(
 
     try {
         const user = await createUser(body);
-        if (!user) return res.send(404);
         return res.send(user);
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -30,10 +56,10 @@ export async function createUserHandler(
                 console.log(
                     "There is a unique constraint violation, a new user cannot be created with this email"
                 );
-                return res.send(403);
+                return res.send(500);
             }
         } else {
-            return res.send(402);
+            return res.send(500);
         }
     }
 }
@@ -53,6 +79,33 @@ export async function getUserHandler(
 
     return res.send(user);
 }
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: The user path
+ * /users:
+ *   get:
+ *     summary: Create a user (and optionally associate with courses)
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The created User.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ *
+ */
 
 export async function updateUserHandler(
     req: Request<UpdateUserInput["params"], {}, UpdateUserInput["body"]>,
