@@ -13,27 +13,22 @@ import { createTestSchema } from "./tests";
  *       required:
  *          id
  *          name
- *          members
- *          tests
+ *
  *       properties:
  *         id:
- *           type: string
+ *           type: interger
  *         name:
  *           type: string
  *         courseDetails:
  *           type: string
  *         tests:
- *           y
+ *           type: Array
  *           items:
  *              $ref: "#/components/schemas/Test"
  *         members:
  *           type: Array
  *           items:
  *              $ref: "#/components/schemas/CourseEnrollment"
- *         userId:
- *          type: string
- *         courseId:
- *          type: string
  */
 
 const payload = {
@@ -44,11 +39,6 @@ const payload = {
                 required_error: "CourseDetails is required",
             })
             .optional(),
-        courseId: z.string({
-            required_error: "CourseId is required",
-        }),
-        members: z.array(createCourseEnrollmentSchema.shape.body).optional(),
-        tests: z.array(createTestSchema.shape.body).optional(),
     }),
 };
 
@@ -66,7 +56,6 @@ export const getCourseSchema = z.object({
 
 export const createCourseSchema = z.object({
     ...payload,
-    ...params,
 });
 
 export const updateCourseSchema = z.object({

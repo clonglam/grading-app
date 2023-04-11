@@ -1,14 +1,14 @@
 
 paths:
-  /api/users:
+  /api/courses:
     get:
-      summary: Get all users
+      summary: Get all courses
       tags: 
-        - Users
+        - Courses
  
       responses:
         200:
-          description: Return a user List with pagination.
+          description: Return a course List with pagination.
           content:
             application/json:
               schema:
@@ -19,10 +19,10 @@ paths:
           description: Some server error
 
     post:
-      summary: Create a user
+      summary: Create a course
       description: Optional associate with courses
       tags: 
-        - Users
+        - Courses
 
       requestBody:
         required: true
@@ -42,11 +42,11 @@ paths:
         500:
           description: Some server error
   
-  /api/users/{userId}:
+  /api/courses/{userId}:
     get:
-      summary: Get a user
+      summary: Get a course
       tags: 
-        - Users
+        - Courses
  
       parameters:
         - in: path
@@ -55,7 +55,7 @@ paths:
  
       responses:
         200:
-          description: Return user with associated userId.
+          description: Return course with associated userId.
           content:
             application/json:
               schema:
@@ -64,9 +64,9 @@ paths:
           description: Some server error
 
     put:
-      summary: Update a user
+      summary: Update a course
       tags: 
-        - Users
+        - Courses
         
       parameters:
         - in: path
@@ -90,9 +90,9 @@ paths:
           description: Some server error
  
     delete:
-      summary: Delete a user
+      summary: Delete a course
       tags: 
-        - Users
+        - Courses
 
       parameters:
         - in: path

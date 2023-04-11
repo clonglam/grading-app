@@ -1,14 +1,12 @@
 import {
-    CreateUserInput,
     DeleteUserInput,
     GetUserInput,
     UpdateUserInput,
     UserInput,
 } from "./../schema/users";
 
-import { databaseResponseTimeHistogram } from "../utils/metrics";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { CreateCourseEnrollmentInput } from "../schema/courseEnrollment";
+import { databaseResponseTimeHistogram } from "../utils/metrics";
 
 const prisma = new PrismaClient();
 
