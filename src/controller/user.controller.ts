@@ -13,33 +13,6 @@ import {
 } from "./../schema/users";
 import { Request, Response } from "express";
 
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: The user path
- * /users/{userId}:
- *   post:
- *     summary: Create a user (and optionally associate with courses)
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: The created User.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Some server error
- *
- */
-
 export async function createUserHandler(
     req: Request<{}, {}, CreateUserInput["body"]>,
     res: Response
@@ -62,30 +35,6 @@ export async function createUserHandler(
     }
 }
 
-/**
- * @swagger
- * /api/users/{userId}:
- *   get:
- *     summary: Get a user
- *     tags: [Users]
- *
- *     parameters:
- *     - in: path
- *       name: userId
- *       required: true
- *
- *     responses:
- *       200:
- *         description: The created User.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Some server error
- *
- */
-
 export async function getUserHandler(
     req: Request<GetUserInput["params"]>,
     res: Response
@@ -101,30 +50,6 @@ export async function getUserHandler(
 
     return res.send(user);
 }
-
-/**
- * @swagger
- * /users/{userId}:
- *    put:
- *     summary: Update a user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: The Updated User.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Some server error
- *
- */
 
 export async function updateUserHandler(
     req: Request<UpdateUserInput["params"], {}, UpdateUserInput["body"]>,
@@ -142,30 +67,6 @@ export async function updateUserHandler(
 
     return res.send(updatedProduct);
 }
-
-/**
- * @swagger
- * /users/{userId}:
- *    delete:
- *     summary: Delete a user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: The Deleted User.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Some server error
- *
- */
 
 export async function deleteUserHandler(
     req: Request<DeleteUserInput["params"], {}, {}>,

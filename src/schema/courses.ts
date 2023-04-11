@@ -23,7 +23,7 @@ import { createTestSchema } from "./tests";
  *         courseDetails:
  *           type: string
  *         tests:
- *           type: Array
+ *           y
  *           items:
  *              $ref: "#/components/schemas/Test"
  *         members:

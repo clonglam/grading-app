@@ -28,6 +28,7 @@ const options: swaggerJsdoc.Options = {
     },
     apis: [
         "./src/controller/*.ts",
+        "./src/docs/*.yaml",
         "./src/schema/*.ts",
         "./src/startup/routes.ts",
     ],
