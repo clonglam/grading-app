@@ -64,16 +64,16 @@ export async function createUserHandler(
 
 /**
  * @swagger
- * /users/{userId}:
+ * /api/users/{userId}:
  *   get:
  *     summary: Get a user
  *     tags: [Users]
- *     requestBody:
+ *
+ *     parameters:
+ *     - in: path
+ *       name: userId
  *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
+ *
  *     responses:
  *       200:
  *         description: The created User.

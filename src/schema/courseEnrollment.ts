@@ -43,6 +43,14 @@ const payload = {
     }),
 };
 
+const deletePayload = {
+    body: z.object({
+        courseId: z.string({
+            required_error: "CourseId is required",
+        }),
+    }),
+};
+
 const params = {
     params: z.object({
         userId: z.string({
@@ -67,6 +75,7 @@ export const updateCourseEnrollmentSchema = z.object({
 
 export const deleteCourseEnrollmentSchema = z.object({
     ...params,
+    ...deletePayload,
 });
 
 export type GetCourseEnrollmentInput = z.TypeOf<

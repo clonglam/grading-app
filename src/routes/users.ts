@@ -12,10 +12,12 @@ import {
 } from "../schema/users";
 import {
     createCourseEnrollmentSchema,
+    deleteCourseEnrollmentSchema,
     getCourseEnrollmentSchema,
 } from "../schema/courseEnrollment";
 import {
     createCourseEnrollmentHandler,
+    deleteCourseEnrollmentHandler,
     getCourseEnrollmentHandler,
 } from "../controller/courseEnrollment.controller";
 
@@ -31,8 +33,22 @@ router.post(
     validateResource(createCourseEnrollmentSchema),
     createCourseEnrollmentHandler
 );
-router.post("/", validateResource(createUserSchema), createUserHandler);
-router.get("/", validateResource(getUserSchema), getUserHandler);
+router.delete(
+    "/:userId/course",
+    validateResource(deleteCourseEnrollmentSchema),
+    deleteCourseEnrollmentHandler
+);
+router.post(
+    "/",
+    validateResource(createCourseEnrollmentSchema),
+    createUserHandler
+);
+router.get("/", validateResource(getCourseEnrollmentSchema), getUserHandler);
+router.delete(
+    "/:id",
+    validateResource(deleteCourseEnrollmentSchema),
+    deleteCourseEnrollmentHandler
+);
 router.get("/:id", validateResource(getUserSchema), getUserHandler);
 router.put("/:id", validateResource(updateUserSchema), updateUserHandler);
 router.delete("/:id", validateResource(updateUserSchema), updateUserHandler);

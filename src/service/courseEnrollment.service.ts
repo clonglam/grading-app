@@ -1,5 +1,6 @@
 import {
     CreateCourseEnrollmentInput,
+    DeleteCourseEnrollmentInput,
     GetCourseEnrollmentInput,
 } from "./../schema/courseEnrollment";
 import { databaseResponseTimeHistogram } from "../utils/metrics";
@@ -35,6 +36,7 @@ export async function createCourseEnrollment(
         throw e;
     }
 }
+
 export async function getCourseEnrollment({
     userId,
 }: GetCourseEnrollmentInput["params"]) {
@@ -59,6 +61,38 @@ export async function getCourseEnrollment({
 
         timer({ ...metricsLabels, success: "true" });
         return result;
+    } catch (e) {
+        timer({ ...metricsLabels, success: "false" });
+        throw e;
+    }
+}
+
+export async function deleteCourseEnrollment(
+    { userId }: DeleteCourseEnrollmentInput["params"],
+    { courseId }: DeleteCourseEnrollmentInput["body"]
+) {
+    const metricsLabels = {
+        operation: "deleteCourseEnrollment",
+    };
+
+    const data = {
+        userId_courseId: {
+            courseId: parseInt(courseId as string),
+            userId: parseInt(userId as string),
+        },
+    };
+
+    const timer = databaseResponseTimeHistogram.startTimer();
+
+    try {
+        if (
+            Number.isNaN(data.userId_courseId.userId) ||
+            Number.isNaN(data.userId_courseId.courseId)
+        )
+            throw new Error("userID or courseId should be number.");
+        return await prisma.courseEnrollment.delete({
+            where: { ...data },
+        });
     } catch (e) {
         timer({ ...metricsLabels, success: "false" });
         throw e;

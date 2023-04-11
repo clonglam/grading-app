@@ -1,13 +1,41 @@
 import { Request, Response } from "express";
 import {
     createCourseEnrollment,
+    deleteCourseEnrollment,
     getCourseEnrollment,
 } from "../service/courseEnrollment.service";
 import {
     CreateCourseEnrollmentInput,
+    DeleteCourseEnrollmentInput,
     GetCourseEnrollmentInput,
 } from "./../schema/courseEnrollment";
 
+/**
+ * @swagger
+ * tags:
+ *   name: CourseEnrollments
+ *   description: Courses API
+ * /users/{userId}/courses:
+ *   post:
+ *     summary: Enroll a user to a course (as student or teacher)
+ *     tags: [CourseEnrollments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CourseEnrollment'
+ *     responses:
+ *       200:
+ *         description: CourseEnrollment.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CourseEnrollment'
+ *       500:
+ *         description: Some server error
+ *
+ */
 export async function createCourseEnrollmentHandler(
     req: Request<
         CreateCourseEnrollmentInput["params"],
@@ -26,7 +54,27 @@ export async function createCourseEnrollmentHandler(
         return res.send(500);
     }
 }
-
+/**
+ * @swagger
+ * tags:
+ *   name: CourseEnrollments
+ *   description: Courses API
+ * /users/{userId}/courses:
+ *   get:
+ *     summary: Get a user's enrollement incourses
+ *     tags: [CourseEnrollments]
+ *
+ *     responses:
+ *       200:
+ *         description: CourseEnrollment.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CourseEnrollment'
+ *       500:
+ *         description: Some server error
+ *
+ */
 export async function getCourseEnrollmentHandler(
     req: Request<GetCourseEnrollmentInput["params"]>,
     res: Response
@@ -38,43 +86,15 @@ export async function getCourseEnrollmentHandler(
     return res.send(user);
 }
 
-// export async function updateUserHandler(
-//     req: Request<UpdateUserInput["params"], {}, UpdateUserInput["body"]>,
-//     res: Response
-// ) {
-//     const id = req.params.id;
-//     const update = req.body;
+export async function deleteCourseEnrollmentHandler(
+    req: Request<
+        DeleteCourseEnrollmentInput["params"],
+        {},
+        DeleteCourseEnrollmentInput["body"]
+    >,
+    res: Response
+) {
+    const deletedUser = await deleteCourseEnrollment(req.params, req.body);
 
-//     const data = parseInt(id);
-//     if (!data || Number.isNaN(data)) return res.sendStatus(404);
-
-//     const user = await getUser({ id: data });
-
-//     if (!user) {
-//         return res.sendStatus(404);
-//     }
-
-//     const updatedProduct = await updateUser({ id }, update);
-
-//     return res.send(updatedProduct);
-// }
-
-// export async function deleteUserHandler(
-//     req: Request<DeleteUserInput["params"], {}, {}>,
-//     res: Response
-// ) {
-//     const id = req.params.id;
-
-//     const data = parseInt(id);
-//     if (!data || Number.isNaN(data)) return res.sendStatus(402);
-
-//     const user = await getUser({ id: data });
-
-//     if (!user) {
-//         return res.sendStatus(404);
-//     }
-
-//     const deletedUser = await deleteUser({ id });
-
-//     return res.send(deletedUser);
-// }
+    return res.send(deletedUser);
+}
