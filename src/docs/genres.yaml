@@ -1,0 +1,154 @@
+components:
+    schemas:
+      Genre:
+        type: object
+        required:
+           id
+           label
+           slug
+
+        properties:
+          id:
+           type: number
+          label:
+            type: string
+          slug:
+            type: string
+          movies:
+            type: array
+            items:
+              $ref: '#/components/schemas/Movie'
+
+      GenreBody:
+        type: object
+        required:
+          label
+          slug
+        properties:
+          label:
+            type: string
+          slug:
+            type: string
+          movies:
+            type: array
+            items:
+              $ref: '#/components/schemas/MovieBody'
+
+
+paths:
+  /api/genres:
+    get:
+      summary: Get all Genres
+      tags: 
+        - Genres
+ 
+      responses:
+        200:
+          description: Return a Genres list with pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genre'
+        500:
+          description: Some server error
+
+    post:
+      summary: Create a genre
+      description: Optional associate with genre
+      tags: 
+        - Genres
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenreBody'
+
+      responses:
+        200:
+          description: Return created Genre.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+
+        500:
+          description: Some server error
+  
+  /api/genres/{genreId}:
+    get:
+      summary: Get a genre with details
+      tags: 
+        - Genres
+ 
+      parameters:
+        - in: path
+          name: genreId
+          required: true
+ 
+      responses:
+        200:
+          description: Return genre with associated genreId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+        500:
+          description: Some server error
+
+    put:
+      summary: Update a genre
+      tags: 
+        - Genres
+        
+      parameters:
+        - in: path
+          name: genreId
+          required: true
+ 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenreBody'
+      responses:
+        200:
+          description: The Updated Genre.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+        500:
+          description: Some server error
+ 
+    delete:
+      summary: Delete a genre
+      tags: 
+        - Genres
+
+      parameters:
+        - in: path
+          name: genreId
+          required: true
+ 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenreBody'
+      responses:
+        200:
+          description: The Deleted Genre.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+        500:
+          description: Some server error
+ 
+ 

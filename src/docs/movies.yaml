@@ -1,0 +1,157 @@
+components:
+    schemas:
+      Movie:
+        type: object
+        required:
+           id
+           title
+           numberInStock
+           dailyRentalRate
+        properties:
+          id:
+           type: number
+          title:
+            type: string
+          numberInStock:
+            type: number
+          dailyRentalRate:
+            type: number
+          genre:
+            type: object
+            $ref: '#/components/schemas/Genre'
+
+      MovieParams:
+        type: object
+        required:
+          id
+        properties:
+          id:
+            type: number
+
+      MovieBody:
+        type: object
+        required:
+          title
+          numberInStock
+          dailyRentalRate
+        properties:
+          title:
+            type: string
+          numberInStock:
+            type: number
+          dailyRentalRate:
+            type: number
+          genreId:
+            type: number
+ 
+paths:
+  /api/movies:
+    get:
+      summary: Get all movies
+      tags: 
+        - Movies
+ 
+      responses:
+        200:
+          description: Return a movies list with pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+        500:
+          description: Some server error
+
+    post:
+      summary: Create a Movie
+      description: Optional associate with Genre
+      tags: 
+        - Movies
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieBody'
+
+      responses:
+        200:
+          description: Return created User.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+        500:
+          description: Some server error
+  
+  /api/movies/{movieId}:
+    get:
+      summary: Get a Movie
+      tags: 
+        - Movies
+ 
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+ 
+      responses:
+        200:
+          description: Return movie with associated movieId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        500:
+          description: Some server error
+
+    put:
+      summary: Update a Movie
+      tags: 
+        - Movies
+        
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+ 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieBody'
+      responses:
+        200:
+          description: The Updated Movie.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        500:
+          description: Some server error
+ 
+    delete:
+      summary: Delete a course
+      tags: 
+        - Movies
+
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+ 
+      responses:
+        200:
+          description: The Deleted User.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        500:
+          description: Some server error
+ 
+ 
